@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imagegem.cloud.mapper.StorageTblMapper">
+
+    <resultMap id="BaseResultMap" type="com.imagegem.cloud.model.domain.StorageTbl">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="commodityCode" column="commodity_code" jdbcType="VARCHAR"/>
+        <result property="count" column="count" jdbcType="INTEGER"/>
+        <result property="usedCount" column="used_count" jdbcType="INTEGER"/>
+        <result property="residue" column="residue" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,commodity_code,count,
+        used_count,residue
+    </sql>
+</mapper>

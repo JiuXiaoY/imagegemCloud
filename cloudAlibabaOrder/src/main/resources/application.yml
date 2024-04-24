@@ -1,0 +1,12 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: cloudAlibabaOrder
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+feign:
+  sentinel:
+    enabled: true

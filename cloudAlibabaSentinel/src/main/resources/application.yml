@@ -1,0 +1,15 @@
+server:
+  port: 8882
+
+spring:
+  application:
+    name: cloudAlibabaSentinel
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://localhost:8848
+    sentinel:
+      transport:
+        dashboard: http://localhost:8088
+        port: 8719
+      web-context-unify: false #对services方法调用不认为是同一个链路

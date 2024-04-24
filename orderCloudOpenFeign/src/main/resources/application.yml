@@ -1,0 +1,151 @@
+server:
+  port: 9992
+
+spring:
+  application:
+    name: orderCloudOpenFeign
+
+  cloud:
+    consul:
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+        service-name: ${spring.application.name}
+      host: localhost
+
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: 30000
+            read-timeout: 30000
+      httpclient:
+        hc5:
+          enabled: true
+      compression:
+        request:
+          enabled: true
+          mime-types: text/xml,application/xml,application/json
+          min-request-size: 2048
+        response:
+          enabled: true
+      circuitbreaker:
+        enabled: true
+        group:
+          enabled: false #线程池配置需要设置为false
+
+#断路器配置：基于count_based========================================================================
+
+#resilience4j:
+#  circuitbreaker:
+#    configs:
+#      default:
+#        failure-rate-threshold: 50
+#        sliding-window-type: count_based
+#        sliding-window-size: 6
+#        minimum-number-of-calls: 6
+#        automatic-transition-from-open-to-half-open-enabled: true
+#        wait-duration-in-open-state: 5s
+#        permitted-number-of-calls-in-half-open-state: 2
+#        record-exceptions:
+#          - java.lang.Exception
+#    instances:
+#      paymentCloud:
+#        base-config: default
+
+#断路器配置：基于count_based========================================================================
+
+#舱壁隔离配置，基于信号量=============================================================
+
+#resilience4j:
+#  timelimiter:
+#    configs:
+#      default:
+#        timeout-duration: 30s
+#  bulkhead:
+#    configs:
+#      default:
+#        max-concurrent-calls: 2
+#        max-wait-duration: 2s
+#    instances:
+#      paymentCloud:
+#        base-config: default
+
+#舱壁隔离配置，基于信号量=============================================================
+
+
+#日志配置========================================
+
+#logging:
+#  level:
+#    com:
+#      imagegem:
+#        cloud:
+#          apis:
+#            PayFeignAPI: debug
+
+#日志配置========================================
+
+#断路器配置：基于time_based========================================================================
+
+#resilience4j:
+#  timelimiter:
+#    configs:
+#      default:
+#        timeout-duration: 10s #神坑的位置，timelimiter、默认限制远程1s，超于1s就超时异常，配置了降级，就走降级逻辑
+#  circuitbreaker:
+#    configs:
+#      default:
+#        failure-rate-threshold: 50
+#        slow-call-duration-threshold: 2s
+#        slow-call-rate-threshold: 30
+#        sliding-window-type: time_based
+#        sliding-window-size: 2
+#        minimum-number-of-calls: 2
+#        permitted-number-of-calls-in-half-open-state: 2
+#        wait-duration-in-open-state: 5s
+#        record-exceptions:
+#          - java.lang.Exception
+#    instances:
+#      paymentCloud:
+#        base-config: default
+
+#断路器配置：基于time_based========================================================================
+
+#舱壁隔离：基于线程池==================================================================
+
+#resilience4j:
+#  timelimiter:
+#    configs:
+#      default:
+#        timeout-duration: 20s
+#  thread-pool-bulkhead:
+#    configs:
+#      default:
+#        core-thread-pool-size: 1
+#        max-thread-pool-size: 1
+#        queue-capacity: 1
+#    instances:
+#      paymentCloud:
+#        base-config: default
+
+#舱壁隔离：基于线程池==================================================================
+
+#限流配置：基于线程池==================================================================
+
+#resilience4j:
+#  ratelimiter:
+#    configs:
+#      default:
+#        limit-for-period: 2
+#        limit-refresh-period: 1s
+#        timeout-duration: 1s
+#    instances:
+#      paymentCloud:
+#        base-config: default
+
+#限流配置：基于线程池==================================================================
+
+#链路追踪==========================================
+
+#链路追踪==========================================

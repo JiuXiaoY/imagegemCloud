@@ -1,0 +1,15 @@
+server:
+  port: 9528
+spring:
+  application:
+    name: cloudAlibabaSentinelGateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: pay_route1
+          uri: http://localhost:9001
+          predicates:
+            - Path=/openfeign/sentinel/getPayment/**

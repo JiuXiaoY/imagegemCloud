@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: paymentCloud
+  cloud:
+    consul:
+      port: 8500
+      host: localhost
+      discovery:
+        prefer-ip-address: true
+        service-name: ${spring.application.name}
+      config:
+        profile-separator: "-"
+        format: yaml
+        watch:
+          wait-time: 55

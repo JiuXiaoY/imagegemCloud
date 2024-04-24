@@ -1,0 +1,41 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: gateWayCloud
+  cloud:
+    consul:
+      port: 8500
+      host: localhost
+      discovery:
+        prefer-ip-address: true
+        service-name: ${spring.application.name}
+    gateway:
+      routes:
+        - id: pay_route1
+          #uri: http://localhost:9901
+          uri: lb://paymentCloud
+          predicates:
+            - Path=/api/gateway/info/**
+            - After=2024-04-19T13:15:25.104956400+08:00[Asia/Shanghai]
+            #            - Cookie=chocolate, ch.p
+            #            - Host=**.imagegem.cn
+            #            - name: My
+            #              args:
+            #                userType: gold
+            - My=gold
+        - id: pay_route2
+          #uri: http://localhost:9901
+          uri: lb://paymentCloud
+          predicates:
+            - Path=/api/gateway/selectOne/payment/**
+        - id: pay_route3
+          uri: lb://paymentCloud
+          predicates:
+            - Path=/api/gateway/filter/info/**
+          filters:
+            - AddRequestHeader=X-Request-imagegem, beautifulGirl
+            - AddRequestHeader=X-Request-lovegem, luckyGirl
+            - RemoveRequestHeader=X-Request-lovegem
+            - My=userType, gold
